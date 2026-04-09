@@ -1,0 +1,49 @@
+﻿body {
+}
+
+/* Альтернативный вариант с полным контролем границ */
+.custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid rgb(139, 160, 188);
+}
+
+/* Все внутренние границы */
+    .custom-table td {
+        border: 1px solid rgb(207, 221, 238);
+        padding: 4px;
+        text-align: left;
+    }
+
+/* Стили только для шапки */
+    .custom-table th {
+        font-weight: bold;
+        color: rgb(139, 160, 188);
+        padding: 12px;
+        text-align: left;
+        border: 2px solid rgb(139, 160, 188);
+        background-color: rgb(243, 245, 252);
+    }
+
+.custom-table-geen {
+    background-color: rgb(234, 245, 234);
+}
+
+.custom-table-yellow {
+    background-color: rgb(253, 253, 200);
+}
+
+.custom-table-violet {
+    background-color: rgb(209, 196, 233);
+}
+
+.custom-table-grey {
+    background-color: rgb(179, 183, 183);
+}
+
+.custom-table-blue {
+    background-color: rgb(213, 237, 252);
+}
+
+.custom-table-non-colore {
+}

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Checkwork.BusinessComponents\Checkwork.BusinessComponents.csproj" />
+    <ProjectReference Include="..\Checkwork.DataAccess\Checkwork.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

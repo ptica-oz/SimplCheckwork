@@ -1,0 +1,139 @@
+﻿@using Checkwork.DataAccess
+@using SimplCheckwork.Models.Employees
+
+@model List<EmployeeModel>
+<script>
+    function myFunction(columnNumberValue) {
+        // Декларируем переменные
+        var input, filter, table, tr, td, i, txtValue, columnNumber;
+        columnNumber = parseInt(columnNumberValue);
+        
+        switch(columnNumberValue)
+        {
+            case "0":
+                input = document.getElementById("employeeFilter");
+                break;
+
+            case "1":
+                input = document.getElementById("statusFilter");
+                break;
+
+            case "2":
+                input = document.getElementById("timeFilter");
+                break;
+
+            case "3":
+                input = document.getElementById("dayOffTypeFilter");
+                break;
+
+            case "4":
+                input = document.getElementById("regEmployeeFilter");
+                break;
+
+            case "5":
+                input = document.getElementById("noteFilter");
+                break;
+
+            case "6":
+                input = document.getElementById("firstArrivalFilter");
+                break;
+
+            default:
+                break;
+        }
+
+        filter = input.value.toUpperCase();
+        table = document.getElementById("employeesTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Цикл по всем рядам таблицы. Скрываем не соответствующие строке поиска
+        for (i = 2; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[columnNumber];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) == 0) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<table class="custom-table" id="employeesTable">
+    <thead>
+        <tr>
+            <th>Сотрудник</th>
+            <th>Статус</th>
+            <th>Время</th>
+            <th>Причина отсутствия</th>
+            <th>Зарегистрировал</th>
+            <th>Примечание</th>
+            <th>Первое прибытие</th>
+        </tr>
+    </thead>
+
+    <tr>
+        <td >
+            <input type="text" id="employeeFilter" onkeyup="myFunction('0')">
+        </td>
+        <td >
+            <input type="text" id="statusFilter" onkeyup="myFunction('1')" />
+        </td>
+        <td >
+            <input type="text" id="timeFilter" onkeyup="myFunction('2')" />
+        </td>
+        <td >
+            <input type="text" id="dayOffTypeFilter" onkeyup="myFunction('3')" />
+        </td>
+        <td >
+            <input type="text" id="regEmployeeFilter" onkeyup="myFunction('4')" />
+        </td>
+        <td >
+            <input type="text" id="noteFilter" onkeyup="myFunction('5')" />
+        </td>
+        <td >
+            <input type="text" id="firstArrivalFilter" onkeyup="myFunction('6')" />
+        </td>
+    </tr>
+
+    @{
+        var colors = new Dictionary<string, string>()
+        {
+            { "Прибыл", "custom-table-geen"},
+            { "Отпуск", "custom-table-yellow" },
+            { "Отпуск за свой счет", "custom-table-yellow" },
+            { "Командировка", "custom-table-violet"},
+            { "Личная причина", "custom-table-blue"},
+            { "Болезнь", "custom-table-grey"}
+        };
+        foreach (EmployeeModel employee in Model)
+        {
+            var cssClass = "";
+            switch (employee.Status)
+            {
+                case "Прибыл":
+                    cssClass = colors[employee.Status];
+                    break;
+
+                case "Отсутствие":
+                    cssClass = colors[employee.DayOffType];
+                    break;
+
+                default:
+                    cssClass = ".custom-table-non-colore";
+                    break;
+            }
+            <tr class=@cssClass>
+                <td>@employee.Signature</td>
+                <td>@employee.Status</td>
+                <td>@employee.Time</td>
+                <td>@employee.DayOffType</td>
+                <td>@employee.RegEmployee</td>
+                <td>@employee.Note</td>
+                <td>@employee.FirstArrival</td>
+            </tr>
+        }
+    }    
+</table>
