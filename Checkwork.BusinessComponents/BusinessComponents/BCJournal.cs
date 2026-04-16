@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using System.Text;
-    using System.Threading.Tasks;
     using Checkwork.BusinessComponents.Dto;
     using Checkwork.BusinessComponents.Enums;
     using Checkwork.BusinessComponents.Helpers;
@@ -27,19 +25,7 @@ AND ( DateEvent BETWEEN '{1}' AND '{2}'
  )
  ORDER BY DateEvent, PrevEvent DESC";
 
-        public static IEnumerable<WorkEvent> GetWorkEventByEmployeeAndDateInterval(int employeeId, DateTime startDate, DateTime endDate)
-        {
-            IEnumerable<WorkEvent> result = new List<WorkEvent>();
-
-            using (var entities = new CheckworkCurContext())
-            {
-                var query = string.Format(WorkEventByEmployeeAndDateIntervalQuery, employeeId, startDate.ToString("o").Substring(0, 19), endDate.ToString("o").Substring(0, 19));
-                var formattableQuery = FormattableStringFactory.Create(query);
-                result = entities.Database.SqlQuery<WorkEvent>(formattableQuery).ToList();
-            }
-
-            return result;
-        }
+        private const string GetDataByPrevEventQuery = @"SELECT * dbo.WorkEvent WHERE (PrevEvent = '{0}')";
 
         public static List<JournalResultModel> GetReport(int employeeId, DateTime startDate, DateTime endDate)
         {
@@ -73,14 +59,45 @@ AND ( DateEvent BETWEEN '{1}' AND '{2}'
                 if (eventType?.Code != EventTypeCodes.Absence) 
                 {
                     newItem.DateTime = workEvent.DateEvent?.GetFormattedDate();
+
+                    if (eventType?.Code == EventTypeCodes.GoAway)
+                    {
+                        newItem.CanDelete = true;
+                    }
+                    else if(eventType?.Code == EventTypeCodes.Arrive)
+                    {
+                        newItem.CanDelete = GetDataByPrevEvent(workEvent.IdworkEvent).Count() == 0;
+                    }
+                }
+                else if(workEvent.PrevEvent == null)
+                {
+                    newItem.CanDelete = true;
+                    var date = $"C {workEvent.DateEvent?.GetFormattedDate()}";
+                    var workEventByParentList = GetDataByPrevEvent(workEvent.IdworkEvent);
+                    if (workEventByParentList.Count() == 1)
+                    {
+                        date += $" до {workEventByParentList.First().DateEvent?.GetFormattedDate()}";
+                    }
                 }
 
                 result.Add(newItem);
             }
 
             return result;
-
         }
 
+        private static IEnumerable<WorkEvent> GetDataByPrevEvent(int prevEventId)
+        {
+            IEnumerable<WorkEvent> result = new List<WorkEvent>();
+
+            using (var entities = new CheckworkCurContext())
+            {
+                var query = string.Format(GetDataByPrevEventQuery, prevEventId);
+                var formattableQuery = FormattableStringFactory.Create(query);
+                result = entities.Database.SqlQuery<WorkEvent>(formattableQuery).ToList();
+            }
+
+            return result;
+        }
     }
 }
