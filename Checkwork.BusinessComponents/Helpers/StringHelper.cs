@@ -1,10 +1,7 @@
 ﻿namespace Checkwork.BusinessComponents.Helpers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Microsoft.IdentityModel.Tokens;
 
     public class StringHelper
     {
@@ -28,7 +25,7 @@
 
         private static string GetInitial(string? word)
         {
-            if (word == null)
+            if (word.IsNullOrEmpty())
             {
                 return string.Empty;
             }

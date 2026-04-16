@@ -1,0 +1,121 @@
+﻿@using SimplCheckwork.Models.Jornal
+@using System.ComponentModel.DataAnnotations
+
+@model JournalModel
+
+<!-- Включаем стили и скрипты Select2 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function generateTable() {
+        var employeeId = $('#SelectedEmployeeId').val();
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+
+        // Очищаем предыдущие ошибки
+        $('#errorMessage').removeClass('show').empty();
+
+        // Валидация
+        if (!startDate) {
+            showError('Пожалуйста, укажите дату начала');
+            return;
+        }
+
+        if (!endDate) {
+            showError('Пожалуйста, укажите дату окончания');
+            return;
+        }
+
+        // Показываем индикатор загрузки и блокируем кнопку
+        $('#loading').addClass('show');
+        $('#generateBtn').prop('disabled', true);
+
+        // Отправляем AJAX запрос
+        $.ajax({
+            url: '@Url.Action("GetDatesTable", "Journal")',
+            type: 'POST',
+            data: { 
+                employeeId: employeeId,
+                startDate: startDate,
+                endDate: endDate
+            },
+            success: function(response) {
+                $('#tableContainer').html(response);
+                $('#errorMessage').removeClass('show');
+            },
+            error: function(xhr, status, error) {
+                var errorMsg = 'Произошла ошибка: ';
+
+                if (xhr.status === 400) {
+                    errorMsg += xhr.responseText;
+                } else if (xhr.status === 500) {
+                    errorMsg += 'Внутренняя ошибка сервера. Пожалуйста, проверьте консоль разработчика.';
+                    console.error('Server error:', xhr.responseText);
+                } else {
+                    errorMsg += error;
+                }
+
+                showError(errorMsg);
+                $('#tableContainer').html('<div class="no-data">Не удалось загрузить данные</div>');
+            },
+            complete: function() {
+                // Скрываем индикатор загрузки и разблокируем кнопку
+                $('#loading').removeClass('show');
+                $('#generateBtn').prop('disabled', false);
+            }
+        });
+    }
+
+    function showError(message) {
+        $('#errorMessage').text(message).addClass('show');
+
+        // Автоматически скрываем ошибку через 5 секунд
+        setTimeout(function() {
+            $('#errorMessage').removeClass('show');
+        }, 5000);
+    }
+
+    // Добавляем возможность отправки по Enter
+    $(document).ready(function() {
+        $('#startDate, #endDate').on('keypress', function(e) {
+            if (e.which === 13) {
+                generateTable();
+            }
+        });
+    });
+</script>
+
+<table>
+    <tr>
+        <td>Сотрудник:</td>
+        <td>
+            @Html.DropDownListFor(model => model.SelectedEmployeeId, 
+                new SelectList(Model.Employees, "EmployeeId", "Signature", Model.SelectedEmployeeId),
+                "ку", new { @class = "searchable-dropdown" })
+        </td>
+        <td>Период с:</td>
+        <td>
+            <input type="date"
+                   id="startDate" name="startDate"
+                   value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+        </td>
+        <td>по:</td>
+        <td>
+            <input type="date"
+                   id="endDate" name="endDate"
+                   value="@Model.EndDate.ToString("yyyy-MM-dd")" />
+        </td>
+        <td><button onclick="generateTable()">Сформировать таблицу</button></td>
+        <td>Выгрузить журнал</td>
+    </tr>    
+</table>
+<div id="errorMessage" class="error-message"></div>
+<div id="loading" class="loading">⏳ Загрузка данных...</div>
+
+<div id="tableContainer">
+    @if (Model.IsDatesGenerated && Model.Dates.Any())
+    {
+        <partial name="_ReportTable" model="Model.Dates" />
+    }
+</div>

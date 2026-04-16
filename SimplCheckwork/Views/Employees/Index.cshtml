@@ -71,6 +71,7 @@
             <th>Зарегистрировал</th>
             <th>Примечание</th>
             <th>Первое прибытие</th>
+            <th>#</th>
         </tr>
     </thead>
 
@@ -133,6 +134,11 @@
                 <td>@employee.RegEmployee</td>
                 <td>@employee.Note</td>
                 <td>@employee.FirstArrival</td>
+                <td text-align="center">
+                    <a asp-action="Index" asp-controller="Journal" asp-route-employeeId="@employee.EmployeeId">
+                        <img src="~/Images/MenuItem/journal_16х16.png" alt="Журнал..."/>
+                    </a>
+                </td>
             </tr>
         }
     }    

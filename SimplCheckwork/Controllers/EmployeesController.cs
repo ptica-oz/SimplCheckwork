@@ -21,6 +21,7 @@
                 var employeeStatusEvent = employeeStatusEvents[employee.IDEmployee];
 
                 var employeeViewModel = new EmployeeModel();
+                employeeViewModel.EmployeeId = employee.IDEmployee;
                 employeeViewModel.Signature = StringHelper.CombinSignature(employee.Surname, employee.Name, employee.Patronimyc);
 
                 employeeViewModel.Status = employeeStatusEvent.EventName ?? string.Empty;

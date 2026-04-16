@@ -1,0 +1,43 @@
+﻿@using Checkwork.BusinessComponents.Dto
+
+@model List<JournalResultModel>
+
+@if (Model != null && Model.Any())
+{
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Дата и время</th>
+                    <th>Событие</th>
+                    <th>Причина отсутствия</th>
+                    <th>Примечание</th>
+                    <th>Зарегистрировал</th>
+                    <th>Дата и время регистрации</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var resultRow = Model[i];
+                    <tr>
+                        <td>ку</td>
+                        <td>@resultRow.DateTime</td>
+                        <td>@resultRow.EventName</td>
+                        <td>@resultRow.OffType</td>
+                        <td>@resultRow.Note</td>
+                        <td>@resultRow.RegEmployee</td>
+                        <td>@resultRow.RegDateTime</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="no-data">
+        Нет данных для отображения
+    </div>
+}

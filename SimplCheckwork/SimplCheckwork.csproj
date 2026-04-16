@@ -11,4 +11,19 @@
     <ProjectReference Include="..\Checkwork.DataAccess\Checkwork.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\MenuItem\calendar_32x42.png" />
+    <None Include="wwwroot\images\MenuItem\catalog_32x42.png" />
+    <None Include="wwwroot\images\MenuItem\collapse_16х16.png" />
+    <None Include="wwwroot\images\MenuItem\employees_32x42.png" />
+    <None Include="wwwroot\images\MenuItem\expand_16х16.png" />
+    <None Include="wwwroot\images\MenuItem\help_32х42.png" />
+    <None Include="wwwroot\images\MenuItem\journal_16х16.png" />
+    <None Include="wwwroot\images\MenuItem\journal_32x42.png" />
+    <None Include="wwwroot\images\MenuItem\registrashion_32x42.png" />
+    <None Include="wwwroot\images\MenuItem\report_32х42.png" />
+    <None Include="wwwroot\images\MenuItem\setting_32x42.png" />
+    <None Include="wwwroot\images\MenuItem\table_32х42.png" />
+  </ItemGroup>
+
 </Project>
