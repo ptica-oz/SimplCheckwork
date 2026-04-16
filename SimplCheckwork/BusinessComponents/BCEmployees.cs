@@ -1,12 +1,12 @@
-﻿namespace Checkwork.BusinessComponents.BusinessComponents
+﻿namespace SimplCheckwork.BusinessComponents
 {
     using System;
     using System.Runtime.CompilerServices;
-    using Checkwork.BusinessComponents.Dto;
     using Checkwork.DataAccess;
     using Checkwork.DataAccess.Dto;
     using Checkwork.DataAccess.Extentions;
     using Microsoft.EntityFrameworkCore;
+    using SimplCheckwork.BusinessComponents.Dto;
 
     public class BCEmployees
     {

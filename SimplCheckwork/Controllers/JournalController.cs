@@ -1,9 +1,8 @@
 ﻿namespace SimplCheckwork.Controllers
 {
-    using Checkwork.BusinessComponents.BusinessComponents;
     using Checkwork.BusinessComponents.Helpers;
-    using Checkwork.DataAccess;
     using Microsoft.AspNetCore.Mvc;
+    using SimplCheckwork.BusinessComponents;
     using SimplCheckwork.Models.Jornal;
 
     public class JournalController : Controller
@@ -31,7 +30,7 @@
                 return Content("<div class='error'>Дата начала не может быть позже даты окончания</div>");
             }
 
-            var dates = GetDatesInRange(employeeId, startDate, endDate);
+            var dates = BCJournal.GetReport(employeeId, startDate, endDate);
             return PartialView("_ReportTable", dates);
         }
         

@@ -1,4 +1,4 @@
-﻿namespace Checkwork.BusinessComponents.Enums
+﻿namespace SimplCheckwork.Enums
 {
     internal static class EventTypeCodes
     {

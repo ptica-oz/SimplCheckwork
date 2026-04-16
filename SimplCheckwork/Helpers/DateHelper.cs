@@ -1,4 +1,4 @@
-﻿namespace Checkwork.BusinessComponents.Helpers
+﻿namespace SimplCheckwork.Helpers
 {
     using System;
     using System.Collections.Generic;

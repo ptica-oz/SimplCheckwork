@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Checkwork.BusinessComponents\Checkwork.BusinessComponents.csproj" />
     <ProjectReference Include="..\Checkwork.DataAccess\Checkwork.DataAccess.csproj" />
   </ItemGroup>
 

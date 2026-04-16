@@ -1,4 +1,4 @@
-﻿namespace Checkwork.BusinessComponents.Dto
+﻿namespace SimplCheckwork.BusinessComponents.Dto
 {
     public class EmployeeStatusView
     {

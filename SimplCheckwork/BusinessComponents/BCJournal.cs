@@ -1,14 +1,14 @@
-﻿namespace Checkwork.BusinessComponents.BusinessComponents
+﻿namespace SimplCheckwork.BusinessComponents
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using Checkwork.BusinessComponents.Dto;
-    using Checkwork.BusinessComponents.Enums;
-    using Checkwork.BusinessComponents.Helpers;
     using Checkwork.DataAccess;
     using Microsoft.EntityFrameworkCore;
+    using SimplCheckwork.BusinessComponents.Dto;
+    using SimplCheckwork.Enums;
+    using SimplCheckwork.Helpers;
 
     public class BCJournal
     {
@@ -39,7 +39,19 @@ AND ( DateEvent BETWEEN '{1}' AND '{2}'
                 eventTypes = entities.EventTypes.ToList();
                 offTypes = entities.OffTypes.ToList();
 
-                var query = string.Format(WorkEventByEmployeeAndDateIntervalQuery, employeeId, startDate.ToString("o").Substring(0, 19), endDate.ToString("o").Substring(0, 19));
+                var now = DateTime.Now;
+                if (endDate == DateTime.Now.Date) 
+                {
+                    endDate = endDate.AddHours(now.Hour);
+                    endDate = endDate.AddMinutes(now.Minute);
+                }
+                else
+                {
+                    endDate = endDate.AddHours(24);
+                }
+
+                var query = string.Format(WorkEventByEmployeeAndDateIntervalQuery, employeeId, 
+                    startDate.ToString("o").Substring(0, 19), endDate.ToString("o").Substring(0, 19));
                 var formattableQuery = FormattableStringFactory.Create(query);
                 workEvents = entities.Database.SqlQuery<WorkEvent>(formattableQuery).ToList();
             }

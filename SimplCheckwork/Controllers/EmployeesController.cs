@@ -1,9 +1,9 @@
 ﻿namespace SimplCheckwork.Controllers
 {
-    using Checkwork.BusinessComponents.BusinessComponents;
     using Checkwork.BusinessComponents.Helpers;
     using Checkwork.DataAccess.Dto;
     using Microsoft.AspNetCore.Mvc;
+    using SimplCheckwork.BusinessComponents;
     using SimplCheckwork.Models.Employees;
 
     public class EmployeesController : Controller
