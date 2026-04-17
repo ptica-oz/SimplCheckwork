@@ -22,7 +22,11 @@
                 {
                     var resultRow = Model[i];
                     <tr>
-                        <td>ку</td>
+                        <td text-align ="center">
+                            <a asp-action="Index">
+                                <img src="~/Images/MenuItem/journal_16х16.png" alt="Журнал..." />
+                            </a>
+                        </td>
                         <td>@resultRow.DateTime</td>
                         <td>@resultRow.EventName</td>
                         <td>@resultRow.OffType</td>

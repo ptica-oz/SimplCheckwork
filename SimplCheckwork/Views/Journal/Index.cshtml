@@ -33,7 +33,7 @@
 
         // Отправляем AJAX запрос
         $.ajax({
-            url: '@Url.Action("GetDatesTable", "Journal")',
+            url: '@Url.Action("GetJournalByEmployee", "Journal")',
             type: 'POST',
             data: { 
                 employeeId: employeeId,
@@ -78,11 +78,7 @@
 
     // Добавляем возможность отправки по Enter
     $(document).ready(function() {
-        $('#startDate, #endDate').on('keypress', function(e) {
-            if (e.which === 13) {
-                generateTable();
-            }
-        });
+        generateTable();
     });
 </script>
 
@@ -92,7 +88,7 @@
         <td>
             @Html.DropDownListFor(model => model.SelectedEmployeeId, 
                 new SelectList(Model.Employees, "EmployeeId", "Signature", Model.SelectedEmployeeId),
-                "ку", new { @class = "searchable-dropdown" })
+                        "ку", new { @class = "searchable-dropdown", onchange = "generateTable()" })
         </td>
         <td>Период с:</td>
         <td>
@@ -106,12 +102,10 @@
                    id="endDate" name="endDate"
                    value="@Model.EndDate.ToString("yyyy-MM-dd")" />
         </td>
-        <td><button onclick="generateTable()">Сформировать таблицу</button></td>
         <td>Выгрузить журнал</td>
     </tr>    
 </table>
 <div id="errorMessage" class="error-message"></div>
-<div id="loading" class="loading">⏳ Загрузка данных...</div>
 
 <div id="tableContainer">
     @if (Model.IsDatesGenerated && Model.Dates.Any())

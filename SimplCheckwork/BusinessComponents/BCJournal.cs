@@ -7,6 +7,7 @@
     using Checkwork.DataAccess;
     using Microsoft.EntityFrameworkCore;
     using SimplCheckwork.BusinessComponents.Dto;
+    using SimplCheckwork.Dto;
     using SimplCheckwork.Enums;
     using SimplCheckwork.Helpers;
 
@@ -25,12 +26,12 @@ AND ( DateEvent BETWEEN '{1}' AND '{2}'
  )
  ORDER BY DateEvent, PrevEvent DESC";
 
-        private const string GetDataByPrevEventQuery = @"SELECT * dbo.WorkEvent WHERE (PrevEvent = '{0}')";
-
+        private const string GetDataByPrevEventQuery = @"SELECT * FROM WorkEvent WHERE (PrevEvent = '{0}')";
+        
         public static List<JournalResultModel> GetReport(int employeeId, DateTime startDate, DateTime endDate)
         {
             var result = new List<JournalResultModel>();
-            var workEvents = new List<WorkEvent>();
+            var workEvents = new List<WorkEventDto>();
             var eventTypes = new List<EventType>();
             var offTypes = new List<OffType>();
 
@@ -53,7 +54,7 @@ AND ( DateEvent BETWEEN '{1}' AND '{2}'
                 var query = string.Format(WorkEventByEmployeeAndDateIntervalQuery, employeeId, 
                     startDate.ToString("o").Substring(0, 19), endDate.ToString("o").Substring(0, 19));
                 var formattableQuery = FormattableStringFactory.Create(query);
-                workEvents = entities.Database.SqlQuery<WorkEvent>(formattableQuery).ToList();
+                workEvents = entities.Database.SqlQuery<WorkEventDto>(formattableQuery).ToList();
             }
 
             foreach (var workEvent in workEvents)
@@ -90,6 +91,7 @@ AND ( DateEvent BETWEEN '{1}' AND '{2}'
                     {
                         date += $" до {workEventByParentList.First().DateEvent?.GetFormattedDate()}";
                     }
+                    newItem.DateTime = date;
                 }
 
                 result.Add(newItem);
@@ -98,15 +100,15 @@ AND ( DateEvent BETWEEN '{1}' AND '{2}'
             return result;
         }
 
-        private static IEnumerable<WorkEvent> GetDataByPrevEvent(int prevEventId)
+        private static IEnumerable<WorkEventDto> GetDataByPrevEvent(int prevEventId)
         {
-            IEnumerable<WorkEvent> result = new List<WorkEvent>();
+            var result = new List<WorkEventDto>();
 
             using (var entities = new CheckworkCurContext())
             {
                 var query = string.Format(GetDataByPrevEventQuery, prevEventId);
                 var formattableQuery = FormattableStringFactory.Create(query);
-                result = entities.Database.SqlQuery<WorkEvent>(formattableQuery).ToList();
+                result = entities.Database.SqlQuery<WorkEventDto>(formattableQuery).ToList();
             }
 
             return result;

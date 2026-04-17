@@ -23,7 +23,7 @@
 
 
         [HttpPost]
-        public IActionResult GetDatesTable(int employeeId, DateTime startDate, DateTime endDate)
+        public IActionResult GetJournalByEmployee(int employeeId, DateTime startDate, DateTime endDate)
         {
             if (startDate > endDate)
             {
@@ -32,21 +32,6 @@
 
             var dates = BCJournal.GetReport(employeeId, startDate, endDate);
             return PartialView("_ReportTable", dates);
-        }
-        
-        private List<DateTime> GetDatesInRange(int employeeId, DateTime startDate, DateTime endDate)
-        {
-            var dates = new List<DateTime>();
-            var currentDate = startDate;
-
-            while (currentDate <= endDate)
-            {
-                dates.Add(currentDate);
-                currentDate = currentDate.AddDays(1);
-            }
-
-            return dates;
-        }
-         
+        }         
     }
 }
