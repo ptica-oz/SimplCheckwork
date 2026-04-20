@@ -59,6 +59,21 @@
             }
         }
     }
+
+    $(document).on('click', '.open-modal', function () {
+        var productId = $(this).data('id'); // Получаем ID
+
+        // AJAX-запрос для получения содержимого
+        $.ajax({
+            url: '/Employees/SubmitModal',
+            type: 'GET',
+            data: { id: productId },
+            success: function (data) {
+                $('#modalContent').html(data); // Загружаем полученный HTML
+                $('#dataModal').modal('show'); // Показываем окно
+            }
+        });
+    });
 </script>
 
 <table class="custom-table" id="employeesTable">
@@ -72,6 +87,7 @@
             <th>Примечание</th>
             <th>Первое прибытие</th>
             <th>#</th>
+            <th>##</th>
         </tr>
     </thead>
 
@@ -139,7 +155,21 @@
                         <img src="~/Images/MenuItem/journal_16х16.png" alt="Журнал..."/>
                     </a>
                 </td>
+                <td>
+                    <button type="button" class="btn btn-primary open-modal" data-id="@employee.EmployeeId">
+                        Редактировать
+                    </button>
+                </td>
             </tr>
         }
-    }    
+    }   
+    
+    <!-- Контейнер для модального окна -->
+    <div class="modal fade" id="dataModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" id="modalContent">
+                <!-- Сюда загрузится Partial View -->
+            </div>
+        </div>
+    </div>
 </table>

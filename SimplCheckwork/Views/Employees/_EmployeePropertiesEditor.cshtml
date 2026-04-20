@@ -1,0 +1,32 @@
+﻿@using SimplCheckwork.Models.Employees
+
+@model EmployeePropertiesModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Сотрудник</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+</div>
+<div class="modal-body">
+    <form id="editForm">
+        <div class="mb-3">
+            <label class="form-label">Фамилия</label>
+            <input type="text" class="form-control" id="userText" asp-for="Surname">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Имя</label>
+            <input type="text" class="form-control" id="userText" asp-for="Name">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Отчество</label>
+            <input type="text" class="form-control" id="userText" asp-for="Patronymic">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Скрыть</label>
+            <input type="checkbox" id="userText" asp-for="Hided">
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+    <button type="submit" class="btn btn-primary" onclick="saveData()">Сохранить</button>
+</div>

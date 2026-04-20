@@ -37,6 +37,13 @@
             return View(result);
         }
 
+        public IActionResult SubmitModal(int employeeId)
+        {
+            var employeeProperties = new EmployeePropertiesModel();
+
+            return PartialView("_EmployeePropertiesEditor", employeeProperties);
+        }
+
         private IEnumerable<EmployeeDto> GetEmployeeList()
         {
             var list = BCEmployees.GetEmployees().ToList();
