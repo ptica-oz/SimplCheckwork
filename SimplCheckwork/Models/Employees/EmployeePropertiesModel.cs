@@ -8,6 +8,6 @@
 
         public string? Patronymic { get; set; }
 
-        public bool Hided { get; set; }
+        public bool Hidden { get; set; }
     }
 }

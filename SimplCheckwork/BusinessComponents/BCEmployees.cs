@@ -7,6 +7,7 @@
     using Checkwork.DataAccess.Extentions;
     using Microsoft.EntityFrameworkCore;
     using SimplCheckwork.BusinessComponents.Dto;
+    using SimplCheckwork.Models.Employees;
 
     public class BCEmployees
     {
@@ -105,6 +106,32 @@
             }
 
             return result;
+        }
+
+        public static EmployeePropertiesModel? GetEmployeeProperties(int employeeId)
+        {
+            if (employeeId == 0)
+            {
+                return null;
+            }
+
+            using (var entities = new CheckworkCurContext())
+            {
+                var employee = entities.Employees.FirstOrDefault(r => r.Idemployee == employeeId);
+                if (employee == null)
+                {
+                    return null;
+                }
+
+                var employeePropetiesModel = new EmployeePropertiesModel()
+                {
+                    Surname = employee.Name,
+                    Name = employee.Surname,
+                    Patronymic = employee.Patronimyc,
+                    Hidden = employee.Hidden
+                };
+                return employeePropetiesModel;
+            }
         }
 
         public static IEnumerable<EmployeeDto> GetEmployees()

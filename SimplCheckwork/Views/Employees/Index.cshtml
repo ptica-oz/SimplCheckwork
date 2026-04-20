@@ -2,6 +2,9 @@
 @using SimplCheckwork.Models.Employees
 
 @model List<EmployeeModel>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     function myFunction(columnNumberValue) {
         // Декларируем переменные
@@ -61,13 +64,21 @@
     }
 
     $(document).on('click', '.open-modal', function () {
-        var productId = $(this).data('id'); // Получаем ID
+        var employeeId = $(this).data('id'); // Получаем ID
+
+         // Добавьте отладку для проверки
+        console.log("Employee ID:", employeeId);
+
+        if (!employeeId) {
+            console.error("ID не найден!");
+            return;
+        }
 
         // AJAX-запрос для получения содержимого
         $.ajax({
-            url: '/Employees/SubmitModal',
+            url: '/Employees/SubmitModal/' + employeeId,
             type: 'GET',
-            data: { id: productId },
+            contentType: 'application/json',
             success: function (data) {
                 $('#modalContent').html(data); // Загружаем полученный HTML
                 $('#dataModal').modal('show'); // Показываем окно
@@ -75,6 +86,10 @@
         });
     });
 </script>
+
+<button class="btn btn-primary open-modal" data-id="13175">
+    Редактировать
+</button>
 
 <table class="custom-table" id="employeesTable">
     <thead>
@@ -91,6 +106,7 @@
         </tr>
     </thead>
 
+    <!--Фильтры-->
     <tr>
         <td >
             <input type="text" id="employeeFilter" onkeyup="myFunction('0')">
@@ -143,6 +159,7 @@
                     break;
             }
             <tr class=@cssClass>
+                <td hidden ="true">@employee.EmployeeId</td>
                 <td>@employee.Signature</td>
                 <td>@employee.Status</td>
                 <td>@employee.Time</td>
@@ -156,7 +173,7 @@
                     </a>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary open-modal" data-id="@employee.EmployeeId">
+                    <button class="btn btn-primary open-modal" data-id="1">
                         Редактировать
                     </button>
                 </td>
