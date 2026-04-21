@@ -37,13 +37,10 @@
             return View(result);
         }
 
-        
+        [HttpPost]
         public IActionResult SubmitModal(int employeeId)
         {
-            var routeDataId = RouteData.Values["id"]; // TODO: я считаю кастыльный метод получения данных, надо разобраться как сделать по другому
-            int id;
-            int.TryParse( routeDataId?.ToString(), out id);
-            var employeeProperties = BCEmployees.GetEmployeeProperties(id);            
+            var employeeProperties = BCEmployees.GetEmployeeProperties(employeeId);            
             return PartialView("_EmployeePropertiesEditor", employeeProperties);
         }
 

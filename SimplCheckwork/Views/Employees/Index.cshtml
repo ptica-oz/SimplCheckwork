@@ -76,9 +76,9 @@
 
         // AJAX-запрос для получения содержимого
         $.ajax({
-            url: '/Employees/SubmitModal/' + employeeId,
-            type: 'GET',
-            contentType: 'application/json',
+            url: '@Url.Action("SubmitModal", "Employees")',
+            type: 'POST',
+            data: {employeeId: employeeId},
             success: function (data) {
                 $('#modalContent').html(data); // Загружаем полученный HTML
                 $('#dataModal').modal('show'); // Показываем окно
@@ -87,11 +87,8 @@
     });
 </script>
 
-<button class="btn btn-primary open-modal" data-id="13175">
-    Редактировать
-</button>
-
 <table class="custom-table" id="employeesTable">
+    <!--Заголовок таблицы пользователей-->
     <thead>
         <tr>
             <th>Сотрудник</th>
@@ -173,7 +170,7 @@
                     </a>
                 </td>
                 <td>
-                    <button class="btn btn-primary open-modal" data-id="1">
+                    <button class="btn btn-primary open-modal" data-id="@employee.EmployeeId">
                         Редактировать
                     </button>
                 </td>
