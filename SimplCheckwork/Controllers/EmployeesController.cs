@@ -38,10 +38,26 @@
         }
 
         [HttpPost]
-        public IActionResult SubmitModal(int employeeId)
+        public IActionResult EditProperties(int employeeId)
         {
             var employeeProperties = BCEmployees.GetEmployeeProperties(employeeId);            
             return PartialView("_EmployeePropertiesEditor", employeeProperties);
+        }
+
+        [HttpPost]
+        public IActionResult SaveEmployeeProperties([FromBody] EmployeePropertiesModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Данные не получены");
+            }
+
+            if( BCEmployees.UpdateEmployeeProperties(model))
+            {
+                return Ok(new { success = true, message = "Данные сохранены" });
+            }
+
+            return BadRequest("Данные не сохранены");
         }
 
         private IEnumerable<EmployeeDto> GetEmployeeList()

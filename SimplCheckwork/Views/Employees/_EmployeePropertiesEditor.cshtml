@@ -2,6 +2,38 @@
 
 @model EmployeePropertiesModel
 
+<script>
+    function saveData() {
+        // Собираем данные из формы
+        var formData = {
+            EmployeeId: @Model.EmployeeId,
+            Surname: $('#Surname').val(),
+            Name: $('#Name').val(),
+            Patronymic: $('#Patronymic').val(),
+            Hidden: $('#Hidden').is(':checked')
+        };
+
+        // Отправляем AJAX запрос
+        $.ajax({
+            url: '@Url.Action("SaveEmployeeProperties", "Employees")',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function(response) {
+                console.log(response.message);
+                // Закрываем модальное окно
+                $('#dataModal').modal('hide');
+                // Опционально: обновить страницу или показать уведомление
+                alert('Данные успешно сохранены!');
+            },
+            error: function(xhr, status, error) {
+                console.error("Ошибка при сохранении:", error);
+                alert('Произошла ошибка при сохранении данных');
+            }
+        });
+    }
+</script>
+
 <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel">Сотрудник</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
@@ -10,23 +42,23 @@
     <form id="editForm">
         <div class="mb-3">
             <label class="form-label">Фамилия</label>
-            <input type="text" class="form-control" id="userText" asp-for="Surname">
+            <input type="text" class="form-control" id="Surname" asp-for="Surname">
         </div>
         <div class="mb-3">
             <label class="form-label">Имя</label>
-            <input type="text" class="form-control" id="userText" asp-for="Name">
+            <input type="text" class="form-control" id="Name" asp-for="Name">
         </div>
         <div class="mb-3">
             <label class="form-label">Отчество</label>
-            <input type="text" class="form-control" id="userText" asp-for="Patronymic">
+            <input type="text" class="form-control" id="Patronymic" asp-for="Patronymic">
         </div>
         <div class="mb-3">
             <label class="form-label">Скрыть</label>
-            <input type="checkbox" id="userText" asp-for="Hidden">
+            <input type="checkbox" id="Hidden" asp-for="Hidden">
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
     <button type="submit" class="btn btn-primary" onclick="saveData()">Сохранить</button>
 </div>

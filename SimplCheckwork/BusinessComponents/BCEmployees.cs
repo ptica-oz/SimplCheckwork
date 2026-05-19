@@ -125,6 +125,7 @@
 
                 var employeePropetiesModel = new EmployeePropertiesModel()
                 {
+                    EmployeeId = employeeId,
                     Surname = employee.Name,
                     Name = employee.Surname,
                     Patronymic = employee.Patronimyc,
@@ -145,6 +146,26 @@
                 }
                 return list;
             }
+        }
+
+        public static bool UpdateEmployeeProperties (EmployeePropertiesModel model)
+        {
+            using(var entities = new CheckworkCurContext())
+            {
+                var employee = entities.Employees.FirstOrDefault(r => r.Idemployee == model.EmployeeId);
+                if (employee == null)
+                {
+                    return false;
+                }
+
+                // Обновляем имя сотрудника
+                employee.Surname = model.Surname;
+                employee.Name = model.Name ?? string.Empty;
+                employee.Patronimyc = model.Patronymic;
+                employee.Hidden = model.Hidden;
+                entities.SaveChanges();
+            }
+            return true;
         }
     }
 }

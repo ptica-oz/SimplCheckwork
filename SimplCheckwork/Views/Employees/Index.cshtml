@@ -64,9 +64,8 @@
     }
 
     $(document).on('click', '.open-modal', function () {
-        var employeeId = $(this).data('id'); // Получаем ID
+        var employeeId = $(this).data('id');
 
-         // Добавьте отладку для проверки
         console.log("Employee ID:", employeeId);
 
         if (!employeeId) {
@@ -74,9 +73,8 @@
             return;
         }
 
-        // AJAX-запрос для получения содержимого
         $.ajax({
-            url: '@Url.Action("SubmitModal", "Employees")',
+            url: '@Url.Action("EditProperties", "Employees")',
             type: 'POST',
             data: {employeeId: employeeId},
             success: function (data) {
