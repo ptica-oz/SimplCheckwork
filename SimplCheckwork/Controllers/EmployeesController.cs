@@ -8,10 +8,10 @@
 
     public class EmployeesController : Controller
     {
+        public EmployeeTableModel Model = new();
+
         public IActionResult Index()
         {
-            var result = new List<EmployeeModel>();
-
             var employeesStatuses = BCEmployees.GetEmployeeStatuses(DateTime.Now);
             var employeeStatusEvents = employeesStatuses.ToDictionary(k => k.IDEmployee, k => k);
 
@@ -30,10 +30,10 @@
                 employeeViewModel.Note = employeeStatusEvent.Note ?? string.Empty;
                 employeeViewModel.FirstArrival = employeeStatusEvent.FirstArriveTime ?? string.Empty;
 
-                result.Add(employeeViewModel);
+                Model.Employees.Add(employeeViewModel);
             }
 
-            return View(result);
+            return View(Model);
         }
 
         private IEnumerable<EmployeeDto> GetEmployeeList()

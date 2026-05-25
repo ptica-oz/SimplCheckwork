@@ -1,6 +1,6 @@
 ﻿namespace SimplCheckwork.Models.Employees
 {
-    internal class EmployeeModel
+    public class EmployeeModel
     {
         public EmployeeModel() { }
 
