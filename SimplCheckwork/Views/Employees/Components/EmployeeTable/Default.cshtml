@@ -1,0 +1,42 @@
+﻿@using SimplCheckwork.Models.Employees
+
+@model EmployeeTableViewModel
+
+@{
+    var colors = new Dictionary<string, string>()
+        {
+            { "Прибыл", "custom-table-geen"},
+            { "Отпуск", "custom-table-yellow" },
+            { "Отпуск за свой счет", "custom-table-yellow" },
+            { "Командировка", "custom-table-violet"},
+            { "Личная причина", "custom-table-blue"},
+            { "Болезнь", "custom-table-grey"}
+        };
+    foreach (EmployeeModel employee in Model.Employees)
+    {
+        var cssClass = "";
+        switch (employee.Status)
+        {
+            case "Прибыл":
+                cssClass = colors[employee.Status];
+                break;
+
+            case "Отсутствие":
+                cssClass = colors[employee.DayOffType];
+                break;
+
+            default:
+                cssClass = ".custom-table-non-colore";
+                break;
+        }
+        <tr class=@cssClass>
+            <td>@employee.Signature</td>
+            <td>@employee.Status</td>
+            <td>@employee.Time</td>
+            <td>@employee.DayOffType</td>
+            <td>@employee.RegEmployee</td>
+            <td>@employee.Note</td>
+            <td>@employee.FirstArrival</td>
+        </tr>
+    }
+}
